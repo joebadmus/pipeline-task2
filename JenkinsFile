@@ -1,29 +1,18 @@
 pipeline {
-
     agent any
-    
+
     stages {
-        stage('Checking deploy tools and initial clean'){
-            steps{
-                sh 'mvn --version'
-                sh 'java -version'
-                sh 'git --version'
-                sh 'terraform - v'
-            }
-        }
-        stage('install App server'){
-            steps{
-                echo 'App server installed'
-            }
-        }
-        stage('install Web server'){
-            steps{
-                echo 'Web server installed'
-            }
-        }
-        stage('complete'){
-            steps {
-                echo 'Server deployment completed'
+         stage ('Checking Deploy tool and initial cleanup') {
+             steps {
+                 sh 'mvn --version'
+                 sh 'java -version'
+                 sh ' git --version'                 
+             }
+         }
+
+        stage ('complete') {
+             steps  {
+                 echo  'complete'
             }
         }
     }
