@@ -11,7 +11,7 @@ pipeline {
              }
          }
          stage ('App server') {
-                steps {
+              steps {
                     
                     sh 'rm -rf app-server || true'
                     //Git clone app 
@@ -21,7 +21,7 @@ pipeline {
                     // sh 'terraform init && terraform apply --auto-approve'
                     //Initialize terraform
                     echo "====++++App server setup complete++++===="
-                }
+             }
          }
 
          stage ("Setup App server") {
@@ -39,8 +39,7 @@ pipeline {
                     sh  "AWS_ACCESS_KEY_ID=$my_aws_key AWS_SECRET_ACCESS_KEY=$my_aws_secret terraform apply --auto-approve"
                     echo "====++++pp server setup complete++++===="
             }
-      }
-
+        }
 
         stage ('Web server'){
              steps {
@@ -50,6 +49,7 @@ pipeline {
                 //Initialize terraform
              }
          }
+        
         stage ('complete') {
              steps  {
                  
