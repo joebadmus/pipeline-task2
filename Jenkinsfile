@@ -17,7 +17,7 @@ pipeline {
                     //Git clone app 
                     sh 'git clone https://github.com/joebadmus/pipeline-task2.git -b app-server app-server'
                     //cd into the repo
-                    sh 'cd app-server && ls -la'
+                    sh 'cd app-server && cd infra && ls -la'
                     // sh 'terraform init && terraform apply --auto-approve'
                     //Initialize terraform
                     echo "====++++App server setup complete++++===="
