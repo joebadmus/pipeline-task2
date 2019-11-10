@@ -29,6 +29,7 @@ pipeline {
                     sh 'pwd && ls -la'
                     withCredentials([usernamePassword(credentialsId: 'AWS_DEV_SECRET', passwordVariable: 'my_aws_secret', usernameVariable: 'my_aws_key')]) {
                     sh  'AWS_ACCESS_KEY_ID=$my_aws_key AWS_SECRET_ACCESS_KEY=$my_aws_secret terraform init'
+                    }
                     echo '====++++Terraform successfully initiated++++===='
             }
         }
@@ -37,8 +38,10 @@ pipeline {
             steps {
                     withCredentials([usernamePassword(credentialsId: 'AWS_DEV_SECRET', passwordVariable: 'my_aws_secret', usernameVariable: 'my_aws_key')]) {
                     sh  'AWS_ACCESS_KEY_ID=$my_aws_key AWS_SECRET_ACCESS_KEY=$my_aws_secret terraform apply --auto-approve'
+                    }
                     echo '====++++pp server setup complete++++===='
             }
+        
         }
 
         stage ('Web server'){
@@ -52,8 +55,8 @@ pipeline {
         
         stage ('complete') {
              steps  {
-                 echo  'complete'
+                 echo 'complete'
+                 }
             }
-        }
-    }
+    }   
 }
