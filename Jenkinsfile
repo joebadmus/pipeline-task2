@@ -6,7 +6,7 @@ pipeline {
              steps {
                  sh 'mvn --version'
                  sh 'java -version'
-                 sh 'node -v' 
+                 sh 'nodejs -v || true' 
              }
          }
 
