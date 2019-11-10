@@ -1,8 +1,9 @@
 pipeline {
+
     agent any
     
     stages {
-        stage('checking deploy tools and initial clean'){
+        stage('Checking deploy tools and initial clean'){
             steps{
                 sh 'mvn --version'
                 sh 'java -version'
@@ -10,7 +11,7 @@ pipeline {
                 sh 'terraform - v'
             }
         }
-        stage('Install App server'){
+        stage('install App server'){
             steps{
                 echo 'App server installed'
             }
@@ -20,7 +21,6 @@ pipeline {
                 echo 'Web server installed'
             }
         }
-
         stage('complete'){
             steps {
                 echo 'Server deployment completed'
