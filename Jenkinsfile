@@ -27,9 +27,9 @@ pipeline {
                     //Initialize terraform
                     //sh 'cd app-server && cd infra && pwd && ls -la'
                     withCredentials([usernamePassword(credentialsId: 'AWS_DEV_SECRET', passwordVariable: 'my_aws_secret', usernameVariable: 'my_aws_key')]) {
-                    sh 'cd app-server/infra/'
+                    // sh 'cd app-server/infra/'
                     
-                    sh  'pwd && AWS_ACCESS_KEY_ID=$my_aws_key AWS_SECRET_ACCESS_KEY=$my_aws_secret terraform init'
+                    sh  'cd app-server/infra/ && pwd && AWS_ACCESS_KEY_ID=$my_aws_key AWS_SECRET_ACCESS_KEY=$my_aws_secret terraform init'
                     }
                     echo '====++++Terraform successfully initiated++++===='
             }
