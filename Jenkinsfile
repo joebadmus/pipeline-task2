@@ -12,11 +12,13 @@ pipeline {
          }
          stage ('App server') {
                 steps {
+                    
                     sh 'rm -rf app-server || true'
                     //Git clone app 
                     sh 'git clone https://github.com/joebadmus/pipeline-task2.git -b app-server app-server'
                     //cd into the repo
-                    sh 'ls -la && cd app-server && ls -la'
+                    sh 'cd app-server && ls -la'
+                    sh 'pwd'
                     //Initialize terraform
                 }
          }
