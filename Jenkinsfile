@@ -20,7 +20,7 @@ pipeline {
                     sh 'cd app-server && cd infra'
                     // sh 'terraform init && terraform apply --auto-approve'
                     //Initialize terraform
-                    echo "====++++App server setup complete++++===="
+                    echo '====++++App server setup complete++++===='
              }
          }
 
@@ -28,16 +28,16 @@ pipeline {
             steps {
                     sh 'pwd && ls -la'
                     withCredentials([usernamePassword(credentialsId: 'AWS_DEV_SECRET', passwordVariable: 'my_aws_secret', usernameVariable: 'my_aws_key')]) {
-                    sh  "AWS_ACCESS_KEY_ID=$my_aws_key AWS_SECRET_ACCESS_KEY=$my_aws_secret terraform init"
-                    echo "====++++Terraform successfully initiated++++===="
+                    sh  'AWS_ACCESS_KEY_ID=$my_aws_key AWS_SECRET_ACCESS_KEY=$my_aws_secret terraform init'
+                    echo '====++++Terraform successfully initiated++++===='
             }
         }
 
         stage ("Provision App Server") {
             steps {
                     withCredentials([usernamePassword(credentialsId: 'AWS_DEV_SECRET', passwordVariable: 'my_aws_secret', usernameVariable: 'my_aws_key')]) {
-                    sh  "AWS_ACCESS_KEY_ID=$my_aws_key AWS_SECRET_ACCESS_KEY=$my_aws_secret terraform apply --auto-approve"
-                    echo "====++++pp server setup complete++++===="
+                    sh  'AWS_ACCESS_KEY_ID=$my_aws_key AWS_SECRET_ACCESS_KEY=$my_aws_secret terraform apply --auto-approve'
+                    echo '====++++pp server setup complete++++===='
             }
         }
 
@@ -52,7 +52,6 @@ pipeline {
         
         stage ('complete') {
              steps  {
-                 
                  echo  'complete'
             }
         }
