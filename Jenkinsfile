@@ -16,7 +16,7 @@ pipeline {
                     //Git clone app 
                     sh 'git clone https://github.com/joebadmus/pipeline-task2.git -b app-server app-server'
                     //cd into the repo
-                    sh 'ls -la'
+                    sh 'ls -la && cd app-server && ls -la'
                     //Initialize terraform
                 }
          }
