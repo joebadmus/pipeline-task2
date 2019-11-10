@@ -11,19 +11,23 @@ pipeline {
              }
          }
          stage('Setup app server'){
-                sh 'rm -rf app-server || true'
+                steps{
+                 sh 'rm -rf app-server || true'
                 //Git clone app 
                 sh 'git clone https://github.com/joebadmus/pipeline-task2.git -b app-server app-server'
                 //cd into the repo
                 sh 'ls -la'
                 //Initialize terraform
+                }
          }
 
          stage('Setup web server'){
+             steps{
 
                 //Git clone app 
                 //cd into the repo
                 //Initialize terraform
+             }
          }
         stage ('complete') {
              steps  {
