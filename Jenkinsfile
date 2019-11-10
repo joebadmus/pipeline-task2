@@ -21,7 +21,7 @@ pipeline {
              }
          }
 
-         stage ("Setup App server") {
+        stage ("Setup App server") {
             steps {
                     // sh 'terraform init && terraform apply --auto-approve'
                     //Initialize terraform
@@ -46,12 +46,41 @@ pipeline {
 
         stage ('Web server'){
              steps {
-                echo  'web server setup complete'
                 //Git clone app 
                 //cd into the repo
                 //Initialize terraform
+                    sh 'rm -rf web-server || true'
+                    //Git clone app 
+                    sh 'git clone https://github.com/joebadmus/pipeline-task2.git -b web-server web-server'
+                    //cd into the repo
+                    echo '====++++Web server setup complete++++===='
+
              }
          }
+
+         stage ("Setup Web server") {
+            steps {
+                    // sh 'terraform init && terraform apply --auto-approve'
+                    //Initialize terraform
+                    //sh 'cd app-server && cd infra && pwd && ls -la'
+                    withCredentials([usernamePassword(credentialsId: 'AWS_DEV_SECRET', passwordVariable: 'my_aws_secret', usernameVariable: 'my_aws_key')]) {
+                    // sh 'cd app-server/infra/'
+                    
+                    sh  'cd web-server/infra/ && pwd && AWS_ACCESS_KEY_ID=$my_aws_key AWS_SECRET_ACCESS_KEY=$my_aws_secret terraform init'
+                    }
+                    echo '====++++Web successfully initiated++++===='
+            }
+        }
+
+        stage ("Provision Web Server") {
+            steps {
+                    withCredentials([usernamePassword(credentialsId: 'AWS_DEV_SECRET', passwordVariable: 'my_aws_secret', usernameVariable: 'my_aws_key')]) {
+                    sh  'cd web-server/infra/ && pwd && AWS_ACCESS_KEY_ID=$my_aws_key AWS_SECRET_ACCESS_KEY=$my_aws_secret terraform apply --auto-approve'
+                    }
+                    echo '====++++Web server setup complete++++===='
+            }
+        }
+
         
         stage ('complete') {
              steps  {
