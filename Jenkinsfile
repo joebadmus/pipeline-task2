@@ -26,7 +26,7 @@ pipeline {
 
          stage ("Setup App server") {
             steps {
-                    sh 'pwd && ls -la'
+                    sh 'pwd && ls -la && cd infra'
                     withCredentials([usernamePassword(credentialsId: 'AWS_DEV_SECRET', passwordVariable: 'my_aws_secret', usernameVariable: 'my_aws_key')]) {
                     sh  'AWS_ACCESS_KEY_ID=$my_aws_key AWS_SECRET_ACCESS_KEY=$my_aws_secret terraform init'
                     }
@@ -41,7 +41,6 @@ pipeline {
                     }
                     echo '====++++pp server setup complete++++===='
             }
-        
         }
 
         stage ('Web server'){
