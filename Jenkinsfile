@@ -35,7 +35,7 @@ pipeline {
                 //  sh 'cd codebase/javacode/LiquorStoreServlet/target/ && ls -la'
 
                 //  sh 'cd codebase/target/ && scp -i  $THE_KEY -o StrictHostKeyChecking=no SampleServlet.war  ec2-user@18.130.253.4:/var/lib/tomcat/webapps'
-                  sh 'cd codebase/javacode/LiquorStoreServlet/target/ && ls -la && scp -i  $THE_KEY -o StrictHostKeyChecking=no SampleServlet.war  ec2-user@18.130.253.4:/var/lib/tomcat/webapps'
+                  sh 'cd codebase/javacode/LiquorStoreServlet/target/ && ls -la && scp -i  $THE_KEY -o StrictHostKeyChecking=no SampleServlet.war  ec2-user@18.130.253.4:/tmp/tomcat/apache-tomcat-8.5.47/webapps'
                 }
 	             echo 'code Deployed'
             }
