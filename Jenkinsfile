@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     stages {
-        stage('checking deploy tools and initial clean'){
+        stage("checking deploy tools and initial clean"){
             steps{
                 sh 'mvn --version'
                 sh 'java -version'
@@ -10,38 +10,41 @@ pipeline {
                 sh 'rm -rf codebase || true'
             }
         }
-        stage('pull down code base'){
+        
+        stage("pull down code base"){
             steps{
-                sh 'git clone https://github.com/joebadmus/aws-ec2-infra.git -b aws-ec2-infra-west-2 codebase'
+                sh 'git clone https://github.com/joebadmus/pipeline-task2.git -b develop codebase'
             }
         }
 
-        stage('compile and test code'){
-            steps{
-                
+        stage("compile and test code"){
+            steps {
                 sh 'ls -l && cd codebase/javacode/LiquorStoreServlet/ && mvn clean install && ls -la'
             }
         }
 
-        stage('Deploy code to App server'){
+        stage("Deploy code to App server"){
             steps {
-                sh 'rm -rf /tmp/jenkinskey.pem || true'
-                sh 'cp /tmp/jenkins_key4.pem /tmp/jenkinskey.pem && chmod 400 /tmp/jenkinskey.pem'
+                // sh 'rm -rf /tmp/jenkinskey.pem || true'
+                // sh 'cp /tmp/jenkins_key4.pem /tmp/jenkinskey.pem && chmod 400 /tmp/jenkinskey.pem'
                 //sh 'ls -la /tmp' 
                 //sh 'cd codebase/javacode/LiquorStoreServlet/target/ && ls -la && pwd'
-                sh 'scp -i /tmp/jenkinskey.pem -o StrictHostKeyChecking=no codebase/javacode/LiquorStoreServlet/target/SampleServlet.war ec2-user@ec2-3-8-125-56.eu-west-2.compute.amazonaws.com:/tmp/tomcat/apache-tomcat-8.5.47/webapps'
-                echo 'code Deployed'
+                // sh 'scp -i /tmp/jenkinskey.pem -o StrictHostKeyChecking=no codebase/javacode/LiquorStoreServlet/target/SampleServlet.war ec2-user@ec2-3-8-125-56.eu-west-2.compute.amazonaws.com:/tmp/tomcat/apache-tomcat-8.5.47/webapps'
+
+                withCredentials([file(credentialsId: 'key_pair', variable: 'THE_KEY')]) {
+                 sh 'scp -i  $THE_KEY -o StrictHostKeyChecking=no codebase/target/SampleServlet.war  ec2-user@18.130.253.4:/var/lib/tomcat/webapps'
+                }
+	             echo 'code Deployed'
             }
         }
         
-        stage('test code on app server'){
+        stage("test code on app server"){
             steps {
                 echo 'code tested'
             }
         }
         
-
-        stage('complete'){
+        stage("complete"){
             steps {
                 echo 'complete'
             }
