@@ -35,7 +35,7 @@ pipeline {
                  sh 'pwd && ls -la'
 
                 //  sh 'cd codebase/target/ && scp -i  $THE_KEY -o StrictHostKeyChecking=no SampleServlet.war  ec2-user@18.130.253.4:/var/lib/tomcat/webapps'
-                 sh 'cd /var/lib/jenkins/workspace/multibranch_develop/ && ls -la'
+                 sh 'cd /var/lib/jenkins/workspace/multibranch_develop/codebase/ && ls -la'
                 }
 	             echo 'code Deployed'
             }
