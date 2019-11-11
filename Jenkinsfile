@@ -19,7 +19,7 @@ pipeline {
 
         stage("compile and test code"){
             steps {
-                sh 'ls -l && cd codebase/javacode/LiquorStoreServlet/ && mvn clean install && ls -la'
+                sh 'ls -l && cd codebase/javacode/LiquorStoreServlet/ && mvn clean install'
             }
         }
 
@@ -32,7 +32,7 @@ pipeline {
                 // sh 'scp -i /tmp/jenkinskey.pem -o StrictHostKeyChecking=no codebase/javacode/LiquorStoreServlet/target/SampleServlet.war ec2-user@ec2-3-8-125-56.eu-west-2.compute.amazonaws.com:/tmp/tomcat/apache-tomcat-8.5.47/webapps'
 
                 withCredentials([file(credentialsId: 'key_pair', variable: 'THE_KEY')]) {
-                 sh 'scp -i  $THE_KEY -o StrictHostKeyChecking=no codebase/target/SampleServlet.war  ec2-user@18.130.253.4:/var/lib/tomcat/webapps'
+                 sh 'cd target && scp -i  $THE_KEY -o StrictHostKeyChecking=no codebase/target/SampleServlet.war  ec2-user@18.130.253.4:/var/lib/tomcat/webapps'
                 }
 	             echo 'code Deployed'
             }
