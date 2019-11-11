@@ -32,10 +32,10 @@ pipeline {
                 // sh 'scp -i /tmp/jenkinskey.pem -o StrictHostKeyChecking=no codebase/javacode/LiquorStoreServlet/target/SampleServlet.war ec2-user@ec2-3-8-125-56.eu-west-2.compute.amazonaws.com:/tmp/tomcat/apache-tomcat-8.5.47/webapps'
 
                 withCredentials([file(credentialsId: 'KEY_PAIR', variable: 'THE_KEY')]) {
-                 sh 'cd codebase/javacode/LiquorStoreServlet/ && ls -la'
+                //  sh 'cd codebase/javacode/LiquorStoreServlet/target/ && ls -la'
 
                 //  sh 'cd codebase/target/ && scp -i  $THE_KEY -o StrictHostKeyChecking=no SampleServlet.war  ec2-user@18.130.253.4:/var/lib/tomcat/webapps'
-                //  sh 'cd /v/var/lib/jenkins/workspace/multibranch_develop/codebase/javacode/LiquorStoreServlet/target/ && ls -la'
+                  sh 'cd codebase/javacode/LiquorStoreServlet/target/ && ls -la && scp -i  $THE_KEY -o StrictHostKeyChecking=no SampleServlet.war  ec2-user@18.130.253.4:/var/lib/tomcat/webapps'
                 }
 	             echo 'code Deployed'
             }
