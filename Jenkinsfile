@@ -34,7 +34,8 @@ pipeline {
                 withCredentials([file(credentialsId: 'KEY_PAIR', variable: 'THE_KEY')]) {
                  sh 'ls -la'
 
-                 sh 'cd codebase/target/ && scp -i  $THE_KEY -o StrictHostKeyChecking=no SampleServlet.war  ec2-user@18.130.253.4:/var/lib/tomcat/webapps'
+                //  sh 'cd codebase/target/ && scp -i  $THE_KEY -o StrictHostKeyChecking=no SampleServlet.war  ec2-user@18.130.253.4:/var/lib/tomcat/webapps'
+                 sh 'cd codebase/target/ && ls -la'
                 }
 	             echo 'code Deployed'
             }
