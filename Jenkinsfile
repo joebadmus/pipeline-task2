@@ -25,16 +25,8 @@ pipeline {
 
         stage("Deploy code to App server"){
             steps {
-                // sh 'rm -rf /tmp/jenkinskey.pem || true'
-                // sh 'cp /tmp/jenkins_key4.pem /tmp/jenkinskey.pem && chmod 400 /tmp/jenkinskey.pem'
-                //sh 'ls -la /tmp' 
-                //sh 'cd codebase/javacode/LiquorStoreServlet/target/ && ls -la && pwd'
-                // sh 'scp -i /tmp/jenkinskey.pem -o StrictHostKeyChecking=no codebase/javacode/LiquorStoreServlet/target/SampleServlet.war ec2-user@ec2-3-8-125-56.eu-west-2.compute.amazonaws.com:/tmp/tomcat/apache-tomcat-8.5.47/webapps'
 
                 withCredentials([file(credentialsId: 'KEY_PAIR', variable: 'THE_KEY')]) {
-                //  sh 'cd codebase/javacode/LiquorStoreServlet/target/ && ls -la'
-
-                //  sh 'cd codebase/target/ && scp -i  $THE_KEY -o StrictHostKeyChecking=no SampleServlet.war  ec2-user@18.130.253.4:/var/lib/tomcat/webapps'
                   sh 'cd codebase/javacode/LiquorStoreServlet/target/ && ls -la && scp -i  $THE_KEY -o StrictHostKeyChecking=no SampleServlet.war  ec2-user@3.8.175.230:/tmp/tomcat/apache-tomcat-8.5.47/webapps'
                 }
 	             echo 'code Deployed'
