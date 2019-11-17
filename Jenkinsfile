@@ -7,6 +7,7 @@ pipeline {
                 sh 'git --version'
                 sh 'docker -v'
                 sh 'rm -rf codebase || true'
+                sh 'docker rm -f $(docker ps -a -q)'
             }
         }
         
@@ -24,28 +25,27 @@ pipeline {
             }
         }
 
-        // stage("Test container and clean up"){
-        //     steps {
-        //         sh '''
-        //         id=$(docker run -p  3000:3000 -d testing)
-        //         docker rm -f $id
-        //         '''
-        //         echo "====++++App works++++===="
-        //         // curl localhost:3000 | grep "Enter a City"
-
-        //     }
-        // }
-
-
-        stage("Deploy Image to ECS"){
+        stage("Start container"){
             steps {
+                sh '''
+                docker run -p  3000:3000 -d testing
+                '''
+                echo "====++++App works++++===="
+                // curl localhost:3000 | grep "Enter a City"
 
-                // withCredentials([file(credentialsId: 'KEY_PAIR', variable: 'THE_KEY')]) {
-                //   sh 'cd codebase/javacode/LiquorStoreServlet/target/ && ls -la && scp -i  $THE_KEY -o StrictHostKeyChecking=no SampleServlet.war  ec2-user@3.8.175.230:/tmp/tomcat/apache-tomcat-8.5.47/webapps'
-                // }
-	             echo 'code Deployed'
             }
         }
+
+
+        // stage("Deploy Image to ECS"){
+        //     steps {
+
+        //         // withCredentials([file(credentialsId: 'KEY_PAIR', variable: 'THE_KEY')]) {
+        //         // sh 'docker push 735287868690.dkr.ecr.eu-west-2.amazonaws.com/jideweatherapp:latest'
+        //         // }
+	    //          echo 'code Deployed'
+        //     }
+        // }
         
         stage("test code on app server"){
             steps {
