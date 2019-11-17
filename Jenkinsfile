@@ -22,9 +22,19 @@ pipeline {
                 sh 'cd codebase/ && docker build -t testing .'
                 echo "====++++Image Created++++===="
             }
-
-            // echo 'Image successfully created'
         }
+
+        stage("Test container and clean up"){
+            steps {
+                sh '''
+                id=$(docker run  -p  3000:300 -d testing)
+                curl localhost:3000 | grep "city"
+                docker rm -f $id
+                '''
+                echo "====++++App works++++===="
+            }
+        }
+
 
         stage("Deploy Image to ECS"){
             steps {
