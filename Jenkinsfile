@@ -6,19 +6,20 @@ pipeline {
             steps{
                 sh 'git --version'
                 sh 'docker -v'
+                sh 'rm -rf codebase || true'
             }
         }
         
         stage("pull down code base"){
             steps{
-                // sh 'git clone https://github.com/joebadmus/pipeline-task2.git -b develop codebase'
+                sh 'git clone https://github.com/joebadmus/pipeline-task2.git -b node-app codebase'
             echo "====++++Code pulled++++===="
             }
         }
 
-        stage("Create Image"){
+        stage("Builder docker Image"){
             steps {
-                // sh 'cd codebase/javacode/LiquorStoreServlet/ && mvn clean install'
+                sh 'cd codebase/ && docker build -t testing .'
                 echo "====++++Image Created++++===="
             }
 
