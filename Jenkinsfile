@@ -27,7 +27,7 @@ pipeline {
         stage("Test container and clean up"){
             steps {
                 sh '''
-                id=$(docker run  -p  3000:300 -d testing)
+                id=$(docker run  -p  3000:3000 -d testing)
                 curl localhost:3000 | grep "city"
                 docker rm -f $id
                 '''
