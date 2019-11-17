@@ -24,17 +24,17 @@ pipeline {
             }
         }
 
-        stage("Test container and clean up"){
-            steps {
-                sh '''
-                id=$(docker run -p  3000:3000 -d testing)
-                docker rm -f $id
-                '''
-                echo "====++++App works++++===="
-                // curl localhost:3000 | grep "Enter a City"
+        // stage("Test container and clean up"){
+        //     steps {
+        //         sh '''
+        //         id=$(docker run -p  3000:3000 -d testing)
+        //         docker rm -f $id
+        //         '''
+        //         echo "====++++App works++++===="
+        //         // curl localhost:3000 | grep "Enter a City"
 
-            }
-        }
+        //     }
+        // }
 
 
         stage("Deploy Image to ECS"){
