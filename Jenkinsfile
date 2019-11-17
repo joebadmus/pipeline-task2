@@ -7,7 +7,7 @@ pipeline {
                 sh 'git --version'
                 sh 'docker -v'
                 sh 'rm -rf codebase || true'
-                sh 'docker rm -f $(docker ps -a -q)'
+                sh '''docker rm -f $(docker ps -a -q)'''
             }
         }
         
