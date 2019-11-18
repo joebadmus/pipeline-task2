@@ -25,10 +25,16 @@ pipeline {
             }
         }
 
-        stage("Start container"){
+        stage("Start push to dockerhub"){
             steps {
                 sh '''
-                docker run -p  3000:3000 -d testing
+                echo "tagging image"
+                docker tag testing:latest joebadmus/node:v1
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'pass', usernameVariable: 'user')]) {
+                docker login -u $user -p $pass
+                docker push joebadmus/node:v1
+                docker logout
+                }
                 '''
                 echo "====++++App works++++===="
                 // curl localhost:3000 | grep "Enter a City"
