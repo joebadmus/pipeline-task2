@@ -1,4 +1,7 @@
 pipeline {
+    environment {
+     appserver = "3.10.226.152"
+   }
     agent any
     
     stages {
@@ -7,7 +10,6 @@ pipeline {
                 sh 'git --version'
                 sh 'docker -v'
                 sh 'rm -rf codebase || true'
-                sh '''docker rm -f $(docker ps -a -q) || true'''
             }
         }
         
@@ -27,7 +29,6 @@ pipeline {
 
         stage("Start push to dockerhub"){
             steps {
-                
                 echo "tagging image"
                 sh 'docker tag testing:latest joebadmus/node:v1'
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'pass', usernameVariable: 'user')]) {
@@ -35,20 +36,17 @@ pipeline {
                 sh 'docker push joebadmus/node:v1'
                 sh 'docker logout'
                 }
-                
                 echo "====++++App works++++===="
-                // curl localhost:3000 | grep "Enter a City"
             }
         }
 
 
         stage("Deploy Image to App Server"){
             steps {
-
                 withCredentials([file(credentialsId: 'KEY_PAIR', variable: 'THE_KEY')]) {
                 sh 'rm testing.tar || true'
                 sh 'docker save testing:latest > testing.tar'
-                sh "scp -i $THE_KEY -o StrictHostKeyChecking=no testing.tar ec2-user@3.9.173.192:/tmp"
+                sh "scp -i $THE_KEY -o StrictHostKeyChecking=no testing.tar ec2-user@${appserver}:/tmp"
                 }
 	             echo 'code Deployed'
             }
@@ -56,11 +54,10 @@ pipeline {
         
         stage("Run App in App Server"){
             steps {
-
                 withCredentials([file(credentialsId: 'KEY_PAIR', variable: 'THE_KEY')]) {
-                sh "ssh -i $THE_KEY -o StrictHostKeyChecking=no ec2-user@3.9.173.192 'docker load < /tmp/testing.tar'"
-                sh "ssh -i $THE_KEY -o StrictHostKeyChecking=no ec2-user@3.9.173.192 'sudo docker rm -f nodeapp || true'"
-                sh "ssh -i $THE_KEY -o StrictHostKeyChecking=no ec2-user@3.9.173.192 'docker run -p 8082:3000 -d --name nodeapp testing:latest'"
+                sh "ssh -i $THE_KEY -o StrictHostKeyChecking=no ec2-user@${appserver} 'docker load < /tmp/testing.tar'"
+                sh "ssh -i $THE_KEY -o StrictHostKeyChecking=no ec2-user@${appserver} 'sudo docker rm -f nodeapp || true'"
+                sh "ssh -i $THE_KEY -o StrictHostKeyChecking=no ec2-user@${appserver} 'docker run -p 8082:3000 -d --name nodeapp testing:latest'"
                 }
 	             echo 'code Deployed'
             }
