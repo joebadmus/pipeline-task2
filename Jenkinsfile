@@ -41,15 +41,15 @@ pipeline {
         }
 
 
-        // stage("Deploy Image to ECS"){
-        //     steps {
+        stage("Deploy Image to App Server"){
+            steps {
 
-        //         // withCredentials([file(credentialsId: 'KEY_PAIR', variable: 'THE_KEY')]) {
-        //         // sh 'docker push 735287868690.dkr.ecr.eu-west-2.amazonaws.com/jideweatherapp:latest'
-        //         // }
-	    //          echo 'code Deployed'
-        //     }
-        // }
+                withCredentials([file(credentialsId: 'KEY_PAIR', variable: 'THE_KEY')]) {
+                sh 'ssh -i $KEY_PAIR ec2-user@3.9.173.192 docker run -p 8082:3000 -d nodeapp2 joebadmus/node:v1'
+                }
+	             echo 'code Deployed'
+            }
+        }
         
         stage("test code on app server"){
             steps {
