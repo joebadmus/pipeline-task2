@@ -1,4 +1,8 @@
 pipeline {
+    environment {
+     appserver = "3.10.226.152"
+   }
+
     agent any
     
     stages {
@@ -27,7 +31,7 @@ pipeline {
             steps {
 
                 withCredentials([file(credentialsId: 'KEY_PAIR', variable: 'THE_KEY')]) {
-                  sh 'cd codebase/javacode/LiquorStoreServlet/target/ && ls -la && scp -i  $THE_KEY -o StrictHostKeyChecking=no SampleServlet.war  ec2-user@3.8.175.230:/tmp/tomcat/apache-tomcat-8.5.47/webapps'
+                  sh 'cd codebase/javacode/LiquorStoreServlet/target/ && ls -la && scp -i  $THE_KEY -o StrictHostKeyChecking=no SampleServlet.war  ec2-user@${appserver}:/tmp/tomcat/apache-tomcat-8.5.47/webapps'
                 }
 	             echo 'code Deployed'
             }
