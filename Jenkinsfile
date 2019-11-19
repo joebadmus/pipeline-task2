@@ -59,6 +59,7 @@ pipeline {
 
                 withCredentials([file(credentialsId: 'KEY_PAIR', variable: 'THE_KEY')]) {
                 sh "ssh -i $THE_KEY -o StrictHostKeyChecking=no ec2-user@3.9.173.192 'docker load < /tmp/testing.tar'"
+                sh "ssh -i $THE_KEY -o StrictHostKeyChecking=no ec2-user@3.9.173.192 'sudo docker rm -f nodeapp || true'"
                 sh "ssh -i $THE_KEY -o StrictHostKeyChecking=no ec2-user@3.9.173.192 'docker run -p 8082:3000 -d --name nodeapp testing:latest'"
                 }
 	             echo 'code Deployed'
