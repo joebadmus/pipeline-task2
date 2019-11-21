@@ -1,8 +1,8 @@
 pipeline {
 
     environment {
-     webserver = "52.56.160.20"
-     appserver = "3.10.233.75"
+     webserver = "35.178.244.4"
+     appserver = "35.176.143.51"
    }
     agent any
 
@@ -75,9 +75,8 @@ pipeline {
 
                 withCredentials([file(credentialsId: 'KEY_PAIR', variable: 'THE_KEY')]) {
                 sh "ssh -i $THE_KEY -o StrictHostKeyChecking=no ec2-user@${webserver} 'sudo service nginx reload'"
-                sh "ssh -i $THE_KEY -o StrictHostKeyChecking=no ec2-user@${appserver} 'cd /tmp/tomcat/apache-tomcat-8.5.47/bin/ && ./startup.sh'"
+                sh "ssh -i $THE_KEY -o StrictHostKeyChecking=no ec2-user@${appserver} 'sudo cd /tmp/tomcat/apache-tomcat-8.5.47/bin/ && sudo ./startup.sh'"
                 }
-                //   sh 'cd config && ./reload.sh'
 
                  echo 'complete'
                  }
