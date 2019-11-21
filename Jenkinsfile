@@ -60,9 +60,13 @@ pipeline {
         }
 
         stage ('Configure paths') {
-             steps  {
-                 sh 'pwd && ls -la'
-                 }
+             steps {
+
+                withCredentials([file(credentialsId: 'KEY_PAIR', variable: 'THE_KEY')]) {
+                  sh 'cd config && scp -i  $THE_KEY -o StrictHostKeyChecking=no nginx.conf  ec2-user@${webserver}:/etc/nginx'
+                }
+	             echo 'code Deployed'
+            }
         }
 
         stage ('Start Servers') {
