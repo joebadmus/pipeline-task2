@@ -75,7 +75,7 @@ pipeline {
 
                 withCredentials([file(credentialsId: 'KEY_PAIR', variable: 'THE_KEY')]) {
                 sh "ssh -i $THE_KEY -o StrictHostKeyChecking=no ec2-user@${webserver} 'sudo service nginx reload'"
-                sh "ssh -i $THE_KEY -o StrictHostKeyChecking=no ec2-user@${appserver} 'sudo cd /tmp/tomcat/apache-tomcat-8.5.47/bin/ && sudo ./startup.sh'"
+                sh "ssh -i $THE_KEY -o StrictHostKeyChecking=no ec2-user@${appserver} 'cd /tmp/tomcat/apache-tomcat-8.5.47/bin/ && ./startup.sh'"
                 }
 
                  echo 'complete'
