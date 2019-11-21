@@ -1,4 +1,8 @@
 pipeline {
+
+    environment {
+     webserver = "52.56.160.20"
+   }
     agent any
 
     stages {
@@ -55,10 +59,16 @@ pipeline {
             }
         }
 
-        stage ('complete') {
+        stage ('Configure paths') {
+             steps  {
+                 sh 'pwd && ls -la'
+                 }
+        }
+
+        stage ('Start Servers') {
              steps  {
                  echo 'complete'
                  }
-            }
+        }
     }   
 }
