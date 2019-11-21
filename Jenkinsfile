@@ -71,8 +71,12 @@ pipeline {
 
         stage ('Start Servers') {
              steps  {
+                  sh 'cd config && ./reload.sh'
+
+
                  echo 'complete'
                  }
+
         }
     }   
 }
